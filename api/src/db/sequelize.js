@@ -17,8 +17,13 @@ try {
 
 export const User = UserModel(sequelize, DataTypes)
 export const Post = PostModel(sequelize, DataTypes)
-Post.belongsTo(User)
 User.hasMany(Post)
+User.belongsToMany(User, {
+  through: 'FriendModel',
+  as:'friends'
+})
+Post.belongsTo(User)
+
 
 
  export const initDb = async () => {
@@ -30,11 +35,42 @@ User.hasMany(Post)
             email: 'attios@gmail.com',
             password: hash
         })
+      const user2 = await User.create({
+            email: 'leon@gmail.com',
+            password: hash
+      })
+      const user3 = await User.create({
+            email: 'jean@gmail.com',
+            password: hash
+        })
+      const user4 = await User.create({
+            email: 'caca@gmail.com',
+            password: hash
+      })
+      user.addFriends(user2)
+      user.addFriends(user3)
       console.log("Utilisateur créé", user.toJSON());
       const post = await Post.create({
         text: 'salut',
-        UserId: 1         
-        })
+        UserId: 1        
+      })
+      const post1 = await Post.create({
+        text: 'fez',
+        UserId: 3        
+      })
+      const post2 = await Post.create({
+        text: 'oui',
+        UserId: 4       
+      })
+      const post3 = await Post.create({
+        text: 'puo',
+        UserId: 2       
+      })
+      const post4 = await Post.create({
+        text: 'caca',
+        UserId: 2       
+      })
+  
         console.log("Post créé", post.toJSON());
         const users = await User.findAll({ include: Post });
       console.log(JSON.stringify(users, null, 2));

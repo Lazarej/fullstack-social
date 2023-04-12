@@ -1,1 +1,0 @@
-export const _URL = 'http://localhost:8800/api/'

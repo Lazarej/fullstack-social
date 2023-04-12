@@ -7,10 +7,9 @@ import {
   useContext,
   useEffect,
 } from "react";
-import { _URL } from "../global/var";
 
-interface User  {
-  email: string ;
+interface User {
+  email: string;
 }
 
 export const AuthContext = createContext<any>({});
@@ -34,9 +33,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (key || click) {
       e.preventDefault();
       try {
-          const response = await axios.post(`${_URL}auth/login`, form, {
-            withCredentials: true
-        });
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_DOMAIN}auth/login`,
+          form,
+          {
+            withCredentials: true,
+          }
+        );
         setAuth((prev) => (prev = { email: response.data.email }));
       } catch (error) {
         console.error(error);
@@ -53,9 +56,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     if (key || click) {
       e.preventDefault();
       try {
-        
-        const response = await axios.post(`${_URL}auth/register`, form, {withCredentials: true});
-          console.log(response.data)
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_DOMAIN}auth/register`,
+          form,
+          { withCredentials: true }
+        );
+        console.log(response.data);
         setAuth((prev) => (prev = { email: response.data.email }));
       } catch (error) {
         console.error(error);
@@ -66,7 +72,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const value = {
     auth,
     IsUserAuth,
-      Login,
+    Login,
     Register,
   };
 

@@ -2,7 +2,6 @@ import { User } from "../db/sequelize.js";
 import { ValidationError, UniqueConstraintError, json } from "sequelize";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { CUSTOM_PRIVATE_KEY } from "../auth/privatekey.js";
 
 export const login = async (req, res) => {
   try {
@@ -21,7 +20,7 @@ export const login = async (req, res) => {
     if (!passwordValid) {
       return res.status(401).json({ message: "Mot de passe incorrect" });
     }
-    const token = jwt.sign({ userId: user.id }, CUSTOM_PRIVATE_KEY, {
+    const token =  jwt.sign({ userId: user.id }, process.env.CUSTOM_PRIVATE_KEY, {
       expiresIn: "24h",
     });
     const {password, ...data} = user.dataValues
@@ -49,7 +48,7 @@ export const create = async (req, res) => {
       ...req.body,
       password: hash,
     });
-    const token = jwt.sign({ userId: newUser.id }, CUSTOM_PRIVATE_KEY, {
+    const token = jwt.sign({ userId: newUser.id }, process.env.CUSTOM_PRIVATE_KEY, {
       expiresIn: "24h",
     });
     const {password, ...data} = newUser.dataValues
