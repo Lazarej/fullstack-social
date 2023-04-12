@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face  { font-family : "RobotoL" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Light.ttf" ); }
+@font-face  { font-family : "RobotoR" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Regular.ttf" ); }
+@font-face  { font-family : "RobotoB" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Bold.ttf" ); }
+
+@layer base {
+  h2{
+    @apply text-4xl font-medium tracking-tighter font-robotoB uppercase
+  }
+  h1,h2, h3, h4, h5,p,label{
+    @apply selection:text-primary
+  }
+  input{
+    @apply outline-0
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
