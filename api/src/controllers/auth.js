@@ -23,7 +23,8 @@ export const login = async (req, res) => {
     const token =  jwt.sign({ userId: user.id }, process.env.CUSTOM_PRIVATE_KEY, {
       expiresIn: "24h",
     });
-    const {password, ...data} = user.dataValues
+    const { password, ...data } = user.dataValues
+    console.log(data)
     return res
       .cookie("accessToken", token, {
         httpOnly: true,

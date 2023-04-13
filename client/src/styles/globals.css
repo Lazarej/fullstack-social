@@ -5,6 +5,8 @@
 @font-face  { font-family : "RobotoL" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Light.ttf" ); }
 @font-face  { font-family : "RobotoR" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Regular.ttf" ); }
 @font-face  { font-family : "RobotoB" ; src :url( "../../public/fonts/Roboto/RobotoCondensed-Bold.ttf" ); }
+@font-face  { font-family : "MonumentR" ; src :url( "../../public/fonts/Monument//MonumentExtended-Regular.otf" ); }
+@font-face  { font-family : "MonumentB" ; src :url( "../../public/fonts/Monument//MonumentExtended-Ultrabold.otf" ); }
 
 @layer base {
   h2{
@@ -13,14 +15,14 @@
   h1,h2, h3, h4, h5,p,label{
     @apply selection:text-primary
   }
-  input{
+  input,textarea{
     @apply outline-0
   }
 }
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 240, 240, 240;
   --background-end-rgb: 255, 255, 255;
 }
 

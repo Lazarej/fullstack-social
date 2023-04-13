@@ -3,7 +3,7 @@ import cors from 'cors'
 import { initDb } from './src/db/sequelize.js';
 import { Login, Create, Logout } from './src/routes/auth.js';
 import cookieParser from 'cookie-parser';
-import { GetFriendsPosts, GetPosts } from './src/routes/post.js';
+import { GetFeedPosts, GetPosts } from './src/routes/post.js';
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -26,7 +26,7 @@ app.use(cookieParser())
 Login(app)
 Create(app)
 GetPosts(app)
-GetFriendsPosts(app)
+GetFeedPosts(app)
   
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

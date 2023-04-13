@@ -31,19 +31,23 @@ Post.belongsTo(User)
     await sequelize.sync({ force: true });
         console.log('Base de données "social-media" synchronisée');
         const hash = await bcrypt.hash("pikatchu", 10)
-        const user = await User.create({
+      const user = await User.create({
+            name:'Elie Attios',
             email: 'attios@gmail.com',
             password: hash
         })
       const user2 = await User.create({
+            name:'Jullius',
             email: 'leon@gmail.com',
             password: hash
       })
       const user3 = await User.create({
+            name:'Jean Dumoulin',
             email: 'jean@gmail.com',
             password: hash
         })
       const user4 = await User.create({
+            name:'The big crotte',
             email: 'caca@gmail.com',
             password: hash
       })

@@ -7,7 +7,6 @@ export default function RegisterForm() {
   const authContext = useContext(AuthContext);
   const [form, setForm] = useState({
     email: "",
-
     password: "",
     passwordBis: "",
   });

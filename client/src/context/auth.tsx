@@ -9,6 +9,7 @@ import {
 } from "react";
 
 interface User {
+  name: string
   email: string;
 }
 
@@ -16,7 +17,8 @@ export const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [auth, setAuth] = useState<User>({
-    email: "",
+    name:'',
+    email: '',
   });
 
   const IsUserAuth = (): boolean => {
@@ -40,9 +42,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             withCredentials: true,
           }
         );
-        setAuth((prev) => (prev = { email: response.data.email }));
+        setAuth((prev) => (prev = { ...response.data.data }));
       } catch (error) {
-        console.error(error);
+        console.error('dza',error);
       }
     }
   };
@@ -62,7 +64,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           { withCredentials: true }
         );
         console.log(response.data);
-        setAuth((prev) => (prev = { email: response.data.email }));
+        setAuth((prev) => (prev = {  ...response.data.data }));
       } catch (error) {
         console.error(error);
       }

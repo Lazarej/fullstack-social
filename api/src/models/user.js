@@ -17,7 +17,14 @@ export const UserModel = (sequelize, DataTypes) => {
         isEmail: { msg: 'La valeur "email"  doit etre un email' },
         notNull: { args: true, msg: 'La valeur "email" doit etre spécifié' },
       },
-      },
+    },
+    avatar: {
+      type: DataTypes.STRING
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
       password: {
           type: DataTypes.STRING,
           allowNull: false
