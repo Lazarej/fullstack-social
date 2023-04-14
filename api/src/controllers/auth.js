@@ -78,4 +78,7 @@ export const create = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {};
+export const logout = async(req, res) => {
+
+ 
+};

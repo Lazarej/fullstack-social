@@ -66,3 +66,24 @@ export const getFeedPosts = async (req, res) => {
     });
   }
 };
+
+
+export const createPost = async(req, res) => {
+  const token = req.cookies.accessToken;
+  const id = jwt.verify(token, process.env.CUSTOM_PRIVATE_KEY).userId;
+   try {
+    const post = await Post.create({
+      ...req.body,
+      UserId: id
+    })
+     return res.json({
+      message: "Voici le post crée",
+      post,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: "Erreur lors du chargement ,  réesayer dans quelques instants",
+    });
+  }
+}
