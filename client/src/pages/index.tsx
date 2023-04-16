@@ -32,8 +32,8 @@ export default function Home() {
       <main className="flex h-screen flex-col items-center justify-between p-10 w-full overflow-y-scroll mb-40">
         <PostForm />
         <div className="w-full items-center flex flex-col mt-8">
-          {posts.map((post) => (
-            <Post post={post} />
+          {posts.map((post, index) => (
+            <Post key={index} post={post} />
           ))}
         </div>
       </main>

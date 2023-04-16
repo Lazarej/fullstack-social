@@ -12,7 +12,7 @@ export const PostModel = (sequelize, DataTypes) => {
       allowNull: true,
       },
       image: {
-          type: DataTypes.STRING,
+          type: DataTypes.BLOB,
           allowNull: true
     }
   }, {
