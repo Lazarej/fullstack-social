@@ -71,13 +71,17 @@ export const getFeedPosts = async (req, res) => {
 export const createPost = async(req, res) => {
   const token = req.cookies.accessToken;
   const id = jwt.verify(token, process.env.CUSTOM_PRIVATE_KEY).userId;
-   try {
+  try {
+    console.log(req.file)
+    const image = req.file.filename;
     const post = await Post.create({
       ...req.body,
+      image,
       UserId: id
     })
      return res.json({
-      message: "Voici le post crée",
+       message: "Voici le post crée",
+       url: 'http://localhost:8800/' + req.file.filename ,
       post,
     });
   } catch (error) {

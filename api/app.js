@@ -5,8 +5,11 @@ import { Login, Create, Logout } from './src/routes/auth.js';
 import cookieParser from 'cookie-parser';
 import { CreatPosts, GetFeedPosts, GetPosts,  } from './src/routes/post.js';
 import * as dotenv from 'dotenv'
+import path from 'path'
+
 
 dotenv.config()
+const __dirname = path.resolve();
 const app = express()
 const port = 8800
 
@@ -21,7 +24,7 @@ app.use((req, res, next) => {
 app.use(express.json())
 app.use(cors(corsOptions))
 app.use(cookieParser())
-
+app.use(express.static(path.join(__dirname, 'uploads')))
 
 Login(app)
 Create(app)

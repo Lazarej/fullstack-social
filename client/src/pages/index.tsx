@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
+
 import Layout from "@/components/layout/layout";
 import PostForm from "@/components/postForm/postForm";
 import { useEffect, useState } from "react";
@@ -16,7 +15,7 @@ export default function Home() {
   const getPost = async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_DOMAIN}posts/feed`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}api/posts/feed`,
         {
           withCredentials: true,
         }

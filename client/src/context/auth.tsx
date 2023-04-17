@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       e.preventDefault();
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_DOMAIN}auth/login`,
+          `${process.env.NEXT_PUBLIC_DOMAIN}api/auth/login`,
           form,
           {
             withCredentials: true,
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       e.preventDefault();
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_DOMAIN}auth/register`,
+          `${process.env.NEXT_PUBLIC_DOMAIN}api/auth/register`,
           form,
           { withCredentials: true }
         );

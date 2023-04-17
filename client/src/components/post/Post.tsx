@@ -38,7 +38,7 @@ export default function Post(props: Props) {
         <div className="border-b-greyUL border-b-2">
           <p>{props.post.text}</p>
           {props.post.image ? (
-            <img className="w-full h-56" src={props.post.image} alt="" />
+            <img className="w-full h-56 my-6" src={`${process.env.NEXT_PUBLIC_DOMAIN}${props.post.image}`} alt="" />
           ) : null}
         </div>
 

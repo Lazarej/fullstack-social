@@ -15,14 +15,19 @@ export default function PostForm() {
 
   const AddPost = async (e: Event) => {
    e.preventDefault();
-   try {
-     const res = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}post`,form,
+    try {
+      const formData = new FormData()
+      formData.append('image', form.image)
+      formData.append('text', form.text)
+      console.log(formData)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_DOMAIN}post`, formData,
           {
             withCredentials: true,
       })
-     console.log(res.data)
+      const data = await res.data
+      console.log(data)
    } catch (error) {
-    
+    console.error(error)
    }
   };
   
@@ -45,15 +50,15 @@ export default function PostForm() {
             onChange={(e: ChangeEvent) => setForm((prev) => (prev = { ...form, image: e.target.files[0] }))}
             type="file"
             accept="image/png, image/jpeg"
-            id="postImg"
-            name="postImg"
+            id="image"
+            name="image"
             hidden
           />
           <FontAwesomeIcon
             className="text-greyL hover:text-primary duration-300 cursor-pointer"
             size="xl"
             icon={faImage}
-            onClick={() => document.getElementById("postImg")?.click()}
+            onClick={() => document.getElementById("image")?.click()}
           />
           <Button1 onClick={(e) => AddPost(e)} text="Publier" />
         </div>
