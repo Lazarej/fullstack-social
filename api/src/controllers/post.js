@@ -52,9 +52,10 @@ export const getFeedPosts = async (req, res) => {
 
     const userPosts = await data[0].dataValues.Posts.map((post) => post.dataValues)
     const friendsPosts = await data[0].dataValues.friends.map((friend) =>
-      friend.dataValues.Posts.map((post) => post)[0]
+      friend.dataValues.Posts.map((post) => post.dataValues)[0]
     );
-    const posts =  [...userPosts, ...friendsPosts]
+    const posts = [...userPosts, ...friendsPosts]
+    posts.sort((a, b) => new Date(b.created) - new Date(a.created));
     return res.json({
       message: "Les posts de vos amis",
       posts,
@@ -73,7 +74,7 @@ export const createPost = async(req, res) => {
   const id = jwt.verify(token, process.env.CUSTOM_PRIVATE_KEY).userId;
   try {
     console.log(req.file)
-    const image = req.file.filename;
+    const image = req.file ? req.file.filename : null;
     const post = await Post.create({
       ...req.body,
       image,
@@ -81,7 +82,6 @@ export const createPost = async(req, res) => {
     })
      return res.json({
        message: "Voici le post crée",
-       url: 'http://localhost:8800/' + req.file.filename ,
       post,
     });
   } catch (error) {

@@ -1,4 +1,3 @@
-
 import Layout from "@/components/layout/layout";
 import PostForm from "@/components/postForm/postForm";
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ export default function Home() {
     getPost();
   }, []);
 
+
   const getPost = async () => {
     try {
       const res = await axios.get(
@@ -20,16 +20,15 @@ export default function Home() {
           withCredentials: true,
         }
       );
-      console.log(res.data.posts)
-      setPosts(prev => prev = res.data.posts)
+      setPosts((prev) => (prev = res.data.posts));
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
   return (
     <Layout>
       <main className="flex h-screen flex-col items-center justify-between p-10 w-full overflow-y-scroll mb-40">
-        <PostForm />
+        <PostForm updatePost={getPost} />
         <div className="w-full items-center flex flex-col mt-8">
           {posts.map((post, index) => (
             <Post key={index} post={post} />

@@ -2,6 +2,8 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import UserAvatar from "../userAvatar/userAvatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { start } from "repl";
+import { useEffect } from "react";
+import Link from "next/link";
 
 interface Props {
   post: {
@@ -16,7 +18,14 @@ interface Props {
   };
 }
 
+
+
 export default function Post(props: Props) {
+
+useEffect(() => {
+ console.log('render' , props.post.text + Date.now()) 
+},[])
+
   return (
     <div className="bg-white rounded-md border-2 border-greyUL w-5/6 p-4 mb-8">
       <div className="flex justify-end">
@@ -27,6 +36,7 @@ export default function Post(props: Props) {
         />
       </div>
       <form className="w-full">
+        <Link href={`/profil/${props.post.UserId}`}>
         <div className="h-12 w-12 mb-4 flex">
           <UserAvatar change={false} />
           <div className="ml-3 ">
@@ -35,6 +45,7 @@ export default function Post(props: Props) {
             </p>
           </div>
         </div>
+        </Link>
         <div className="border-b-greyUL border-b-2">
           <p>{props.post.text}</p>
           {props.post.image ? (
