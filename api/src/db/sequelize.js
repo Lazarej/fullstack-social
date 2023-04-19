@@ -28,58 +28,9 @@ Post.belongsTo(User)
 
  export const initDb = async () => {
     try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
         console.log('Base de données "social-media" synchronisée');
-        const hash = await bcrypt.hash("pikatchu", 10)
-      const user = await User.create({
-            name:'Elie Attios',
-            email: 'attios@gmail.com',
-            password: hash
-        })
-      const user2 = await User.create({
-            name:'Jullius',
-            email: 'leon@gmail.com',
-            password: hash
-      })
-      const user3 = await User.create({
-            name:'Jean Dumoulin',
-            email: 'jean@gmail.com',
-            password: hash
-        })
-      const user4 = await User.create({
-            name:'The big crotte',
-            email: 'caca@gmail.com',
-            password: hash
-      })
-      user.addFriends(user2)
-      user.addFriends(user3)
-      console.log("Utilisateur créé", user.toJSON());
-      const post = await Post.create({
-        text: 'salut',
-        UserId: 1        
-      })
-      const post1 = await Post.create({
-        text: 'fez',
-        UserId: 3        
-      })
-      const post2 = await Post.create({
-        text: 'oui',
-        UserId: 4       
-      })
-      const post3 = await Post.create({
-        text: 'puo',
-        UserId: 2       
-      })
-      const post4 = await Post.create({
-        text: 'caca',
-        UserId: 2       
-      })
-  
-        console.log("Post créé", post.toJSON());
-        const users = await User.findAll({ include: Post });
-      console.log(JSON.stringify(users, null, 2));
-       const posts = await Post.findAll({ include: User });
-console.log(JSON.stringify(posts, null, 2));
+   
     } catch (error) {
         console.error(error)
          console.log('Base de données non synchronisée');

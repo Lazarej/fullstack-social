@@ -38,7 +38,7 @@ useEffect(() => {
       <form className="w-full">
         <Link href={`/profil/${props.post.UserId}`}>
         <div className="h-12 w-12 mb-4 flex">
-          <UserAvatar change={false} />
+            <UserAvatar change={false} img={props.post.User.avatar} />
           <div className="ml-3 ">
             <p className=" font-robotoR min-w-[100px]">
               {props.post.User.name}

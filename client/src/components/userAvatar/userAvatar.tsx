@@ -1,13 +1,13 @@
 
 interface Props{
-    img?: string,
+    img: string,
     change: boolean
 }
 
 export default function UserAvatar(props: Props) {
     
     return (
-        <img src={props.img ? props.img :'images/default-avatar.png' } className="w-full h-full rounded-full">
+        <img src={props.img ? props.img :'/images/default-avatar.png' } className="w-full h-full rounded-full">
 
         </img>
     )

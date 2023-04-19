@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import { CreatPosts, GetFeedPosts, GetPosts,  } from './src/routes/post.js';
 import * as dotenv from 'dotenv'
 import path from 'path'
+import { GetUserById } from './src/routes/user.js';
 
 
 dotenv.config()
@@ -31,6 +32,7 @@ Create(app)
 GetPosts(app)
 GetFeedPosts(app)
 CreatPosts(app)
+GetUserById(app)
   
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

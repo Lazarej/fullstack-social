@@ -20,14 +20,19 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     name:'',
     email: '',
   });
+  const router = useRouter()
 
-  const IsUserAuth = (): boolean => {
-    if (!auth.email) {
-      return false;
+  useEffect(() => {
+    const connected = localStorage.getItem('Test2');
+    if (connected) {
+      console.log(connected)
+      const storage = JSON.parse(connected)
+      setAuth(storage)
     } else {
-      return true;
+      router.push("/login")
     }
-  };
+  },[])
+
 
   const Login = async (form: { email: string; password: string }, e: Event) => {
     const key = (e as KeyboardEvent).key === "Enter";
@@ -43,6 +48,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           }
         );
         setAuth((prev) => (prev = { ...response.data.data }));
+        localStorage.setItem('Test2', JSON.stringify(response.data.data))
+        router.push("/")
       } catch (error) {
         console.error('dza',error);
       }
@@ -73,7 +80,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const value = {
     auth,
-    IsUserAuth,
     Login,
     Register,
   };
@@ -81,18 +87,4 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const ProtectedRoute = ({ children }: any) => {
-  const router = useRouter();
-  const authContext = useContext(AuthContext);
-  const isLoggedIn = authContext.IsUserAuth();
 
-  useEffect(() => {
-    if (isLoggedIn && window.location.pathname !== "/") {
-      router.push("/");
-    } else if (!isLoggedIn && window.location.pathname === "/") {
-      router.push("/login");
-    }
-  });
-
-  return children;
-};
