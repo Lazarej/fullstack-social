@@ -12,7 +12,6 @@ interface User {
   name: string
   email: string;
 }
-
 export const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -22,16 +21,34 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   });
   const router = useRouter()
 
+
   useEffect(() => {
-    const connected = localStorage.getItem('Test2');
-    if (connected) {
-      console.log(connected)
-      const storage = JSON.parse(connected)
-      setAuth(storage)
-    } else {
-      router.push("/login")
+    userIsAlreadyConnect()
+    // const connected = localStorage.getItem('Test2');
+    // if (connected) {
+    //   console.log(connected)
+    //   const storage = JSON.parse(connected)
+    //   setAuth(storage)
+    // } else {
+    //   router.push("/login")
+    // }
+  }, [])
+  
+  const userIsAlreadyConnect = async () => {
+    console.log('dzada')
+    try {
+      const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_DOMAIN}api/refreshToken`,
+          {
+            withCredentials: true,
+          }
+        );
+      console.log('dzada',response.status)
+    } catch (error) {
+      console.error(error)
     }
-  },[])
+    
+  }
 
 
   const Login = async (form: { email: string; password: string }, e: Event) => {

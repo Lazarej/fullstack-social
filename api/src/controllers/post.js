@@ -27,7 +27,7 @@ export const getPosts = async (req, res) => {
 
 export const getFeedPosts = async (req, res) => {
   const token = req.cookies.accessToken;
-  const id = jwt.verify(token, process.env.CUSTOM_PRIVATE_KEY).userId;
+  const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
 
   try {
     const data = await User.findAll({
@@ -71,7 +71,7 @@ export const getFeedPosts = async (req, res) => {
 
 export const createPost = async(req, res) => {
   const token = req.cookies.accessToken;
-  const id = jwt.verify(token, process.env.CUSTOM_PRIVATE_KEY).userId;
+  const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
   try {
     console.log(req.file)
     const image = req.file ? req.file.filename : null;

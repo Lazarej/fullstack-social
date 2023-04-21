@@ -1,5 +1,5 @@
 import { User } from "../db/sequelize.js";
-import { ValidationError, UniqueConstraintError, json } from "sequelize";
+import { ValidationError, UniqueConstraintError } from "sequelize";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -20,13 +20,17 @@ export const login = async (req, res) => {
     if (!passwordValid) {
       return res.status(401).json({ message: "Mot de passe incorrect" });
     }
-    const token =  jwt.sign({ userId: user.id }, process.env.CUSTOM_PRIVATE_KEY, {
-      expiresIn: "24h",
+    const token =  jwt.sign({ userId: user.id }, process.env.ACCESS_TOKEN_KEY, {
+      expiresIn: "15m",
     });
+    const refreshToken = jwt.sign({ userId: user.id },process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' });
     const { password, ...data } = user.dataValues
     console.log(data)
     return res
       .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
       })
       .json({
@@ -49,12 +53,16 @@ export const create = async (req, res) => {
       ...req.body,
       password: hash,
     });
-    const token = jwt.sign({ userId: newUser.id }, process.env.CUSTOM_PRIVATE_KEY, {
-      expiresIn: "24h",
+    const token = jwt.sign({ userId: newUser.id }, process.env.ACCESS_TOKEN_KEY, {
+      expiresIn: "15m",
     });
+    const refreshToken = jwt.sign({ userId: user.id },process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' });
     const {password, ...data} = newUser.dataValues
     return res
       .cookie("accessToken", token, {
+        httpOnly: true,
+      })
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
       })
       .json({
