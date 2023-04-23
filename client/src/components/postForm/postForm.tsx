@@ -20,7 +20,7 @@ export default function PostForm(props: Props) {
   const AddPost = async (e: Event) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("image", form.image);
+    formData.append("image", form.image as unknown as Blob | string);
     formData.append("text", form.text);
     try {
       if (form.image || form.text) {
@@ -40,10 +40,10 @@ export default function PostForm(props: Props) {
   };
 
   return (
-    <div className="bg-white rounded-md border-2 border-greyUL w-5/6 p-8 pb-4">
+    <div className="bg-white rounded-md border-2 border-greyUL w-5/6 p-8 my-8">
       <form className="w-full">
         <div className="h-12 w-12 mb-2">
-          <UserAvatar change={false} />
+          <UserAvatar img="" change={false} />
         </div>
         <textarea
           className="w-full p-2 rounded-sm resize-none  h-32"

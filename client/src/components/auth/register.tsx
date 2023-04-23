@@ -6,6 +6,7 @@ import Button1 from "../button";
 export default function RegisterForm() {
   const authContext = useContext(AuthContext);
   const [form, setForm] = useState({
+    name:"",
     email: "",
     password: "",
     passwordBis: "",
@@ -23,6 +24,13 @@ export default function RegisterForm() {
       onKeyDown={(e) => authContext.Register(form, e)}
     >
       <h2 className="mb-8">Register</h2>
+      <TextInput
+        name="name"
+        type="text"
+        placeholder="Fullname"
+        label="Fullname"
+        onChange={(e) => HandleEvent(e)}
+      />
       <TextInput
         name="email"
         type="email"

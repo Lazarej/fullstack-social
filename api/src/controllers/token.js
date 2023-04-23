@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
+import { User } from "../db/sequelize.js";
 
 export const getRefreshToken = async (req, res) => {
   try {
     const refreshToken = await req.cookies.refreshToken;
-    const token = await req.cookies.accesstoken;
 
     if (!refreshToken)
       return res.status(401).json({ message: "Vous n'etes pas connecté" });
@@ -11,7 +11,7 @@ export const getRefreshToken = async (req, res) => {
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_KEY,
-      (error, decodeRefreshToken) => {
+      async(error, decodeRefreshToken) => {
         if (error) {
           return res.status(401).json({
             message:
@@ -19,7 +19,11 @@ export const getRefreshToken = async (req, res) => {
           });
         }
         const userId = decodeRefreshToken.userId;
-        console.log("user id for see", userId);
+        const user =  await User.findByPk(userId)
+        if(!user) return  res.status(401).json({
+            message:
+              "L'utilisateur n'existe plus",
+          });
         const newAccessToken = jwt.sign(
           { userId: userId },
           process.env.ACCESS_TOKEN_KEY,

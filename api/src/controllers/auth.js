@@ -56,7 +56,7 @@ export const create = async (req, res) => {
     const token = jwt.sign({ userId: newUser.id }, process.env.ACCESS_TOKEN_KEY, {
       expiresIn: "15m",
     });
-    const refreshToken = jwt.sign({ userId: user.id },process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' });
+    const refreshToken = jwt.sign({ userId: newUser.id },process.env.REFRESH_TOKEN_KEY, { expiresIn: '7d' });
     const {password, ...data} = newUser.dataValues
     return res
       .cookie("accessToken", token, {

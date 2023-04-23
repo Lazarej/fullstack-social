@@ -4,48 +4,42 @@ import {
   useState,
   createContext,
   PropsWithChildren,
-  useContext,
   useEffect,
 } from "react";
 
 interface User {
-  name: string
-  email: string;
+  id: number | null,
 }
 export const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [auth, setAuth] = useState<User>({
-    name:'',
-    email: '',
+    id: null ,
   });
   const router = useRouter()
 
 
   useEffect(() => {
-    userIsAlreadyConnect()
-    // const connected = localStorage.getItem('Test2');
-    // if (connected) {
-    //   console.log(connected)
-    //   const storage = JSON.parse(connected)
-    //   setAuth(storage)
-    // } else {
-    //   router.push("/login")
-    // }
+    RefresHToken()
+    const interval = setInterval(() => RefresHToken(), 14 * 60 * 1000 )
+    return () => clearInterval(interval)
   }, [])
   
-  const userIsAlreadyConnect = async () => {
-    console.log('dzada')
+  const RefresHToken = async () => {
     try {
       const response = await axios.get(
           `${process.env.NEXT_PUBLIC_DOMAIN}api/refreshToken`,
           {
             withCredentials: true,
           }
-        );
-      console.log('dzada',response.status)
-    } catch (error) {
-      console.error(error)
+      );
+      const user = JSON.parse(localStorage.getItem('Test2') as string) 
+      setAuth(prev => prev = {...user})
+    } catch (error:  any) {
+      console.error('dezfze',error)
+       if (error.response.status === 401) {
+        Logout()
+      }
     }
     
   }
@@ -64,8 +58,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             withCredentials: true,
           }
         );
+       
         setAuth((prev) => (prev = { ...response.data.data }));
         localStorage.setItem('Test2', JSON.stringify(response.data.data))
+        
         router.push("/")
       } catch (error) {
         console.error('dza',error);
@@ -87,13 +83,18 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           form,
           { withCredentials: true }
         );
-        console.log(response.data);
-        setAuth((prev) => (prev = {  ...response.data.data }));
+        setAuth((prev) => (prev = { ...response.data.data }));
+        router.push("/")
       } catch (error) {
         console.error(error);
       }
     }
   };
+
+  const Logout = () => {
+    localStorage.clear()
+     router.push("/login")
+  }
 
   const value = {
     auth,

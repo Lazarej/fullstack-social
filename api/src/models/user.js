@@ -21,6 +21,9 @@ export const UserModel = (sequelize, DataTypes) => {
     avatar: {
       type: DataTypes.STRING
     },
+    banner: {
+      type: DataTypes.STRING
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,

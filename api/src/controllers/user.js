@@ -1,14 +1,17 @@
 import { Post, User } from "../db/sequelize.js";
-
+import jwt from "jsonwebtoken";
 
 
 export const getUserById = async(req, res) => {
     try {
         const user = await User.findByPk(req.params.id, {
             attributes: { exclude: ["password"] },
-            include: {
+            include:[ {
                 model: Post,
-            }
+            }, {
+              model: User,
+              as: 'friends'
+            }]
       });
       if (!user) {
         const message =
@@ -24,4 +27,19 @@ export const getUserById = async(req, res) => {
           "Erreur lors de la recherche ,  réesayer dans quelques instants",
       });
     }
+}
+
+export const putUser = async (req, res) => {
+  const token = req.cookies.accessToken;
+  const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
+
+  try {
+    const user = await User.findByPk(id)
+    const newUser = { ...user, ...req.body }
+    
+    const update = await user.update(req.body)
+    return res.json({message: 'vous avez bien changé la propriéte correspondante' , update})
+  } catch (error) {
+    
+  }
 }
