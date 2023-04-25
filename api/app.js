@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'uploads')))
 
 Login(app)
 Create(app)
+Logout(app)
 GetPosts(app)
 GetFeedPosts(app)
 CreatPosts(app)

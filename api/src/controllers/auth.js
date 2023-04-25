@@ -86,7 +86,19 @@ export const create = async (req, res) => {
   }
 };
 
-export const logout = async(req, res) => {
-
+export const logout = async (req, res) => {
+  try {
+    await res.clearCookie('accessToken', { httpOnly: true })
+    await res.clearCookie('refreshToken', { httpOnly: true })
+    return res.json({message:'les cookies ont bien été suprimmer'})
+  } catch (error) {
+    console.error(error)
+       res
+      .status(500)
+      .json({
+        message:
+          "Erreur lors de la connection ,  réesayer dans quelques instants",
+      });
+  }
  
 };

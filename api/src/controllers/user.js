@@ -32,14 +32,26 @@ export const getUserById = async(req, res) => {
 export const putUser = async (req, res) => {
   const token = req.cookies.accessToken;
   const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
-
+  const user = await User.findByPk(id)
   try {
-    const user = await User.findByPk(id)
-    const newUser = { ...user, ...req.body }
-    
+    if (!req.files) {
     const update = await user.update(req.body)
     return res.json({message: 'vous avez bien changé la propriéte correspondante' , update})
-  } catch (error) {
+    }
+    const key = Object.keys(req.files)[0]
+    const file = req.files[key][0]
+   const update = await user.update({
+      ...req.body,
+      [file.fieldname]: file.filename ,
+    })
+    return res.json({message: 'vous avez bien changé la propriéte correspondante' , update})
     
+    
+  } catch (error) {
+    console.log(error)
+     return res.status(500).json({
+        message:
+          "Erreur lors de la recherche ,  réesayer dans quelques instants",
+      });
   }
 }

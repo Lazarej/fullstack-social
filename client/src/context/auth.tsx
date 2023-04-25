@@ -1,49 +1,41 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import {
-  useState,
-  createContext,
-  PropsWithChildren,
-  useEffect,
-} from "react";
+import { useState, createContext, PropsWithChildren, useEffect } from "react";
 
 interface User {
-  id: number | null,
+  id: number | null;
 }
 export const AuthContext = createContext<any>({});
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [auth, setAuth] = useState<User>({
-    id: null ,
+    id: null,
   });
-  const router = useRouter()
-
+  const router = useRouter();
 
   useEffect(() => {
-    RefresHToken()
-    const interval = setInterval(() => RefresHToken(), 14 * 60 * 1000 )
-    return () => clearInterval(interval)
-  }, [])
-  
+    RefresHToken();
+    const interval = setInterval(() => RefresHToken(), 14 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const RefresHToken = async () => {
     try {
       const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_DOMAIN}api/refreshToken`,
-          {
-            withCredentials: true,
-          }
+        `${process.env.NEXT_PUBLIC_DOMAIN}api/refreshToken`,
+        {
+          withCredentials: true,
+        }
       );
-      const user = JSON.parse(localStorage.getItem('Test2') as string) 
-      setAuth(prev => prev = {...user})
-    } catch (error:  any) {
-      console.error('dezfze',error)
-       if (error.response.status === 401) {
-        Logout()
+      const user = JSON.parse(localStorage.getItem("Test2") as string);
+      setAuth((prev) => (prev = { ...user }));
+    } catch (error: any) {
+      console.error("dezfze", error);
+      if (error.response.status === 401) {
+        Logout();
       }
     }
-    
-  }
-
+  };
 
   const Login = async (form: { email: string; password: string }, e: Event) => {
     const key = (e as KeyboardEvent).key === "Enter";
@@ -58,13 +50,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             withCredentials: true,
           }
         );
-       
+
         setAuth((prev) => (prev = { ...response.data.data }));
-        localStorage.setItem('Test2', JSON.stringify(response.data.data))
-        
-        router.push("/")
+        localStorage.setItem("Test2", JSON.stringify(response.data.data));
+
+        router.push("/");
       } catch (error) {
-        console.error('dza',error);
+        console.error("dza", error);
       }
     }
   };
@@ -84,25 +76,35 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           { withCredentials: true }
         );
         setAuth((prev) => (prev = { ...response.data.data }));
-        router.push("/")
+        localStorage.setItem("Test2", JSON.stringify(response.data.data));
+        router.push("/");
       } catch (error) {
         console.error(error);
       }
     }
   };
 
-  const Logout = () => {
-    localStorage.clear()
-     router.push("/login")
-  }
+  const Logout = async (e?: Event) => {
+    if (e) return e.preventDefault();
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_DOMAIN}api/auth/logout`,
+        { withCredentials: true }
+      );
+      console.log(response);
+      localStorage.clear();
+      router.push("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const value = {
     auth,
     Login,
+    Logout,
     Register,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-

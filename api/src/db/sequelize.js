@@ -28,7 +28,7 @@ Post.belongsTo(User)
 
  export const initDb = async () => {
     try {
-    await sequelize.sync({force:true});
+    await sequelize.sync();
         console.log('Base de données "social-media" synchronisée');
    
     } catch (error) {
