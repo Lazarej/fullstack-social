@@ -1,4 +1,3 @@
-import { PostModel } from "./post.js";
 
 export const UserModel = (sequelize, DataTypes) => {
   return sequelize.define("User", {

@@ -11,7 +11,7 @@ interface Props{
 }
 
 export default function PostForm(props: Props) {
-  const authContext = useContext(AuthContext);
+  const context = useContext(AuthContext);
   const [form, setForm] = useState({
     text: "",
     image: null,
@@ -43,11 +43,11 @@ export default function PostForm(props: Props) {
     <div className="bg-white rounded-md border-2 border-greyUL w-5/6 p-8 my-8">
       <form className="w-full">
         <div className="h-12 w-12 mb-2">
-          <UserAvatar img="" change={false} />
+          <UserAvatar img={context.auth.avatar} change={false} />
         </div>
         <textarea
           className="w-full p-2 rounded-sm resize-none  h-32"
-          placeholder={`Qu'es ce que vous avez en tête ${authContext.auth.name} ? `}
+          placeholder={`Qu'es ce que vous avez en tête ${context.auth.name} ? `}
           value={form.text}
           onChange={(e: ChangeEvent) =>
             setForm((prev) => (prev = { ...form, text: e.target.value }))

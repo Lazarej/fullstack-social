@@ -1,7 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import { UserModel } from "../models/user.js";
-import bcrypt from "bcryptjs";
 import { PostModel } from "../models/post.js";
+import { CommentModel } from "../models/comment.js";
 
 const sequelize = new Sequelize('social-media', 'root', '', {
   host: 'localhost',
@@ -17,12 +17,17 @@ try {
 
 export const User = UserModel(sequelize, DataTypes)
 export const Post = PostModel(sequelize, DataTypes)
+export const Comment = CommentModel(sequelize, DataTypes)
 User.hasMany(Post)
+User.hasMany(Comment)
 User.belongsToMany(User, {
   through: 'FriendModel',
   as:'friends'
 })
 Post.belongsTo(User)
+Post.hasMany(Comment)
+Comment.belongsTo(Post)
+Comment.belongsTo(User)
 
 
 
@@ -30,7 +35,10 @@ Post.belongsTo(User)
     try {
     await sequelize.sync();
         console.log('Base de données "social-media" synchronisée');
-   
+    // const comment1 = await Comment.create({
+    //   text: 'Premier commentaire',
+    //   PostId: 1
+
     } catch (error) {
         console.error(error)
          console.log('Base de données non synchronisée');

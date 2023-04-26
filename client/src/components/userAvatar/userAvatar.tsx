@@ -1,9 +1,13 @@
+import { useEffect } from "react";
+
 interface Props {
   img: string | undefined;
   change: boolean;
 }
 
 export default function UserAvatar(props: Props) {
+
+
   return (
     <img
       src={

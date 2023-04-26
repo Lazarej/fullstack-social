@@ -16,6 +16,7 @@ module.exports = {
     colors: {
       primary: "#FE724C",
       white: "rgba(255,255,255,1)",
+      black:"rgb(3 7 18)",
       greyN: "rgba(0,0,0,0.7)",
       greyL: "rgba(0,0,0,0.25)",
       greyUL: "rgba(0,0,0,0.06)",

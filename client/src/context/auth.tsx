@@ -30,12 +30,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const user = JSON.parse(localStorage.getItem("Test2") as string);
       setAuth((prev) => (prev = { ...user }));
     } catch (error: any) {
-      console.error("dezfze", error);
       if (error.response.status === 401) {
         Logout();
       }
     }
   };
+
+  const saveUser = (data: {id: number}) => {
+    localStorage.setItem("Test2", JSON.stringify(data));
+    setAuth((prev) => (prev = { ...data}));
+  }
 
   const Login = async (form: { email: string; password: string }, e: Event) => {
     const key = (e as KeyboardEvent).key === "Enter";
@@ -50,10 +54,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
             withCredentials: true,
           }
         );
-
-        setAuth((prev) => (prev = { ...response.data.data }));
-        localStorage.setItem("Test2", JSON.stringify(response.data.data));
-
+        saveUser({...response.data.data })
         router.push("/");
       } catch (error) {
         console.error("dza", error);
@@ -75,8 +76,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           form,
           { withCredentials: true }
         );
-        setAuth((prev) => (prev = { ...response.data.data }));
-        localStorage.setItem("Test2", JSON.stringify(response.data.data));
+        saveUser({...response.data.data })
         router.push("/");
       } catch (error) {
         console.error(error);
@@ -104,6 +104,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     Login,
     Logout,
     Register,
+    saveUser
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

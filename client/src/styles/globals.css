@@ -18,6 +18,16 @@
   input,textarea{
     @apply outline-0
   }
+  
+}
+  main::-webkit-scrollbar {
+  width: 11px;
+}
+
+  main::-webkit-scrollbar-thumb {
+  background-color: black ;
+  border-radius: 6px;
+  border: 1px solid white;
 }
 
 :root {

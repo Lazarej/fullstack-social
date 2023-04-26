@@ -27,7 +27,7 @@ export default function Home() {
   };
   return (
     <Layout>
-      <main className="flex h-screen flex-col items-center justify-between p-10 w-full overflow-y-scroll mb-40">
+      <main className="flex h-screen flex-col items-center justify-between p-10 w-full overflow-y-scroll pb-40 ">
         <PostForm updatePost={getPost} />
         <div className="w-full items-center flex flex-col mt-8">
           {posts.map((post, index) => (

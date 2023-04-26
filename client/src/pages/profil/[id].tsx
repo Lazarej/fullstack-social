@@ -51,6 +51,7 @@ export default function Profil() {
           withCredentials: true,
         }
       )
+      context.saveUser({...response.data.update})
       getUser()
     } catch (error) {
       console.error(error)
@@ -59,7 +60,7 @@ export default function Profil() {
 
   return (
     <Layout>
-      <div className="flex h-screen pb-40 flex-col w-full overflow-y-scroll">
+      <main className="flex h-screen pb-40 flex-col w-full overflow-y-scroll">
         <img
           src={
             profilData.banner
@@ -109,7 +110,7 @@ export default function Profil() {
             <Post key={index} post={post} />
           ))}
         </div>
-      </div>
+      </main>
     </Layout>
   );
 }

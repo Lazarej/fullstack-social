@@ -32,7 +32,9 @@ export const getUserById = async(req, res) => {
 export const putUser = async (req, res) => {
   const token = req.cookies.accessToken;
   const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
-  const user = await User.findByPk(id)
+  const user = await User.findByPk(id, {
+      attributes: { exclude: ["password"] },
+  })
   try {
     if (!req.files) {
     const update = await user.update(req.body)
@@ -40,7 +42,7 @@ export const putUser = async (req, res) => {
     }
     const key = Object.keys(req.files)[0]
     const file = req.files[key][0]
-   const update = await user.update({
+    const update = await user.update({
       ...req.body,
       [file.fieldname]: file.filename ,
     })
