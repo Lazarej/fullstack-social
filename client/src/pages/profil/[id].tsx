@@ -22,7 +22,6 @@ export default function Profil() {
   useEffect(() => {
     if (router.isReady) {
       getUser();
-      console.log(context.auth.id , id );
     }
   }, [router.isReady]);
 
@@ -105,7 +104,7 @@ export default function Profil() {
           </div>
         </div>
         <div className="flex flex-col items-center">
-          {context.auth.id === +id ? <PostForm updatePost={() => {}} /> : null}
+          {context.auth.id === +id ? <PostForm updatePost={getUser} /> : null}
           {profilData.Posts.map((post, index) => (
             <Post key={index} post={post} />
           ))}

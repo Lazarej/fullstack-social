@@ -2,14 +2,16 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import UserAvatar from "../userAvatar/userAvatar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { start } from "repl";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import CommentForm from "../commentForm/CommentForm";
 
 interface Props {
   post: {
     text: string;
     image: string;
     UserId: number;
+    commentCount:number
     User?: {
       avatar?: string;
       email: string;
@@ -19,11 +21,32 @@ interface Props {
 }
 
 export default function Post(props: Props) {
+  
+  const [inView, setInView] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  let callback = (entries: any[], observer: any) => {
+    entries.forEach((entry: { isIntersecting: any; }) => {
+      if (entry.isIntersecting) {
+        setInView(true)
+      }
+    });
+  }
+   
   useEffect(() => {
+    let observer = new IntersectionObserver(callback)
+    if (ref?.current) { 
+      observer.observe(ref.current)
+    }
+    return () => {
+      if (ref?.current) {
+          observer.unobserve(ref.current!)
+      }
+    }
  }, []);
 
-  return (
-    <div className="bg-white rounded-md border-2 border-greyUL w-5/6 p-4 mb-8">
+  return inView ? (
+    <div  className="bg-white rounded-md border-2 border-greyUL w-4/6 p-4 mb-8">
       <div className="flex justify-end">
         <FontAwesomeIcon
           icon={faEllipsis}
@@ -31,7 +54,7 @@ export default function Post(props: Props) {
           style={{ color: "#000" }}
         />
       </div>
-      <form className="w-full">
+      <div className="w-full">
         <Link href={`/profil/${props.post.UserId}`}>
           {props.post.User ? (
             <div className="mb-4 flex">
@@ -48,9 +71,10 @@ export default function Post(props: Props) {
           ) : null}
         </Link>
         <div className="border-b-greyUL border-b-2">
-          <p className="mb-5">{props.post.text}</p>
-          {props.post.image ? (
-            <div className="bg-black w-full h-80 flex justify-center items-center rounded-sm">
+          <p>{props.post.text}</p>
+
+            {props.post.image ? (
+            <div className="bg-black mt-5 w-full h-80 flex justify-center items-center rounded-sm">
               <img
               className="h-full my-6"
               src={`${process.env.NEXT_PUBLIC_DOMAIN}${props.post.image}`}
@@ -58,10 +82,18 @@ export default function Post(props: Props) {
             />
             </div>
           ) : null}
+          <div className="w-full flex justify-end pb-2 pt-4">
+            <p className="font-robotoR text-greyL">{props.post.commentCount} commentaires</p>
+          </div>
+           </div>
+        <div className="w-full flex p-4">
+             <CommentForm/>
         </div>
-
-        <div className="w-full flex justify-end"></div>
-      </form>
+      </div>
     </div>
-  );
+  ) : (
+      <div ref={ref} className="w-full bg-primary m-9 h-96">
+
+      </div>
+  )
 }

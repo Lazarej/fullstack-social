@@ -1,5 +1,5 @@
 export const CommentModel = (sequelize, DataTypes) => {
-  return sequelize.define("Comment", {
+  return sequelize.define("comment", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,

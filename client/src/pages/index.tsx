@@ -21,6 +21,7 @@ export default function Home() {
         }
       );
       setPosts((prev) => (prev = res.data.posts));
+      console.log(res.data.posts)
     } catch (error) {
       console.error(error);
     }

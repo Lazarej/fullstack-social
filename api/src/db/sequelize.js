@@ -3,7 +3,7 @@ import { UserModel } from "../models/user.js";
 import { PostModel } from "../models/post.js";
 import { CommentModel } from "../models/comment.js";
 
-const sequelize = new Sequelize('social-media', 'root', '', {
+export const sequelize = new Sequelize('social-media', 'root', '', {
   host: 'localhost',
   dialect: 'mariadb'
 });
@@ -25,7 +25,7 @@ User.belongsToMany(User, {
   as:'friends'
 })
 Post.belongsTo(User)
-Post.hasMany(Comment)
+Post.hasMany(Comment, {as: 'comments'})
 Comment.belongsTo(Post)
 Comment.belongsTo(User)
 
@@ -34,11 +34,12 @@ Comment.belongsTo(User)
  export const initDb = async () => {
     try {
     await sequelize.sync();
-        console.log('Base de données "social-media" synchronisée');
-    // const comment1 = await Comment.create({
-    //   text: 'Premier commentaire',
-    //   PostId: 1
-
+      console.log('Base de données "social-media" synchronisée');
+      // Comment.create({
+      //   text: 'Les commentaires sont delicieux',
+      //   UserId: 1,
+      //   PostId:1
+      // })
     } catch (error) {
         console.error(error)
          console.log('Base de données non synchronisée');
