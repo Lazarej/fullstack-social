@@ -1,5 +1,6 @@
-import { getComments } from "../controllers/comment.js"
+import { getComments, postComment } from "../controllers/comment.js"
 import { Auth } from "../middleware/auth.js"
 
 
-export const GetComments = (app) => { app.get('/api/comments', Auth, getComments) } 
+export const GetComments = (app) => { app.get('/api/comments/:id', Auth, getComments) } 
+export const PostComment = (app) => { app.post('/api/comments', Auth, postComment) } 

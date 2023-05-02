@@ -15,7 +15,7 @@ export default function UserAvatar(props: Props) {
           ? `${process.env.NEXT_PUBLIC_DOMAIN}${props.img}`
           : "/images/default-avatar.png"
       }
-      className="w-full h-full rounded-full cursor-pointer"
+      className="w-full h-full rounded-full"
     ></img>
   );
 }

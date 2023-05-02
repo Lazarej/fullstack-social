@@ -8,7 +8,7 @@ import * as dotenv from 'dotenv'
 import path from 'path'
 import { GetUserById, PutUser } from './src/routes/user.js';
 import { GetRefreshToken } from './src/routes/token.js';
-import { GetComments } from './src/routes/comment.js';
+import { GetComments, PostComment } from './src/routes/comment.js';
 
 
 dotenv.config()
@@ -39,6 +39,7 @@ GetUserById(app)
 GetRefreshToken(app)
 PutUser(app)
 GetComments(app)
+PostComment(app)
 
 
 app.listen(port, () => console.log(`http://localhost:${port}`));
