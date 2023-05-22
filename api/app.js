@@ -6,9 +6,10 @@ import cookieParser from 'cookie-parser';
 import { CreatPosts, GetFeedPosts, GetPosts,  } from './src/routes/post.js';
 import * as dotenv from 'dotenv'
 import path from 'path'
-import { GetUserById, PutUser } from './src/routes/user.js';
+import { GetAllUser, GetUserById, PutUser } from './src/routes/user.js';
 import { GetRefreshToken } from './src/routes/token.js';
 import { GetComments, PostComment } from './src/routes/comment.js';
+import { CreateFriendsNotification } from './src/routes/notification.js';
 
 
 dotenv.config()
@@ -38,8 +39,10 @@ CreatPosts(app)
 GetUserById(app)
 GetRefreshToken(app)
 PutUser(app)
+GetAllUser(app)
 GetComments(app)
 PostComment(app)
+CreateFriendsNotification(app)
 
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

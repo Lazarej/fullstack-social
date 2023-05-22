@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import { Post, User } from "../db/sequelize.js";
 import jwt from "jsonwebtoken";
 
@@ -52,6 +53,30 @@ export const putUser = async (req, res) => {
   } catch (error) {
     console.log(error)
      return res.status(500).json({
+        message:
+          "Erreur lors de la recherche ,  réesayer dans quelques instants",
+      });
+  }
+}
+
+
+export const getAllUser = async(req , res) => {
+  try {
+    if (req.query.name) {
+      const name = req.query.name
+      const limit = parseInt(req.query.limit) || null
+      const targets = await User.findAndCountAll({
+        where: { name: { [Op.like]: `%${name}%` } },
+        order: ["name"],
+        limit: limit,
+        attributes:['id', 'avatar', 'name']
+      })
+      return res.json({message:'voici les utilisateurs avec un nom semblable', targets})  
+    }
+    return res.json({message:'Bon normalement tu as tout les utilisateur mais bon '})
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({
         message:
           "Erreur lors de la recherche ,  réesayer dans quelques instants",
       });
