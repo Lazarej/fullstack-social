@@ -14,8 +14,9 @@ export default function Profil() {
     banner: "",
     avatar: "",
     name: "",
-    friends: [],
     Posts: [],
+    friendsCount: 0,
+    isFriend:false
   });
   const context = useContext(AuthContext);
 
@@ -26,15 +27,25 @@ export default function Profil() {
   }, [router.isReady]);
 
   const getUser = async () => {
-    const res = await axios.get(
+    try {
+      const resUser = await axios.get(
       `${process.env.NEXT_PUBLIC_DOMAIN}api/user/${id}`,
       {
         withCredentials: true,
       }
     );
-
-    console.log(res.data);
-    setProfilData((prev) => (prev = { ...res.data.user }));
+     const resFriend = await axios.post(
+       `${process.env.NEXT_PUBLIC_DOMAIN}api/user/isFriends`,
+      resUser.data.user,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(resFriend.data);
+    setProfilData((prev) => (prev = { ...resUser.data.user, friendsCount: resUser.data.friendsCount , isFriend:resFriend.data.isfriend}));
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const imageChanger = async (e: ChangeEvent) => { 
@@ -45,12 +56,12 @@ export default function Profil() {
     const formData = new FormData();
       formData.append(`${name}`, files[0] as unknown as Blob | string);
       console.log(formData)
-      const response = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}api/user`,  formData,
+      const resUserponse = await axios.put(`${process.env.NEXT_PUBLIC_DOMAIN}api/user`,  formData,
         {
           withCredentials: true,
         }
       )
-      context.saveUser({...response.data.update})
+      context.saveUser({...resUserponse.data.update})
       getUser()
     } catch (error) {
       console.error(error)
@@ -79,8 +90,9 @@ export default function Profil() {
             name="banner"
             hidden
           />
-        <div className="w-full h-40  flex items-center px-10 mb-16">
-          <div className="h-48 w-48 mr-4 " onClick={() => document.getElementById("avatar")?.click()}>
+        <div className="w-full h-40  flex  justify-between px-10 mb-16">
+          <div className="flex items-center">
+            <div className="h-48 w-48 mr-4 " onClick={() => document.getElementById("avatar")?.click()}>
             <input
             onChange={(e) =>
               imageChanger(e)
@@ -99,15 +111,17 @@ export default function Profil() {
           <div className="flex flex-col">
             <p className="font-monumentR text-xl">{profilData.name}</p>
             <p className="font-robotoR text-greyN">
-              {profilData.friends.length} amis
+              {profilData.friendsCount} amis
             </p>
           </div>
+          </div>
+          {profilData.isFriend ? null : <button>dzf</button>}
         </div>
         <div className="flex flex-col items-center">
           {context.auth.id === +id ? <PostForm updatePost={getUser} /> : null}
-          {profilData.Posts.map((post, index) => (
+          { profilData.isFriend ? profilData.Posts.map((post, index) => (
             <Post key={index} post={post} />
-          ))}
+          )) : null}
         </div>
       </main>
     </Layout>

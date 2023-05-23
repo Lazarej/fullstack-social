@@ -24,7 +24,7 @@ User.hasMany(Post)
 User.hasMany(Comment)
 User.belongsToMany(User, {
   through: 'FriendModel',
-  as:'friends'
+  as: 'friends',
 })
 Post.belongsTo(User)
 Post.hasMany(Comment, {as: 'comments'})
