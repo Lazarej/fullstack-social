@@ -16,7 +16,7 @@ export default function Profil() {
     name: "",
     Posts: [],
     friendsCount: 0,
-    isFriend:false
+    relation:""
   });
   const context = useContext(AuthContext);
 
@@ -41,12 +41,26 @@ export default function Profil() {
         withCredentials: true,
       }
     );
-    console.log(resFriend.data);
-    setProfilData((prev) => (prev = { ...resUser.data.user, friendsCount: resUser.data.friendsCount , isFriend:resFriend.data.isfriend}));
+    setProfilData((prev) => (prev = { ...resUser.data.user, friendsCount: resUser.data.friendsCount , relation:resFriend.data.relation}));
     } catch (error) {
       console.error(error)
     }
   };
+
+  const sendfriendinvitation = async() => {
+   try {
+     const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_DOMAIN}api/notification/friend`,
+      profilData,
+      {
+        withCredentials: true,
+      }
+    )
+    console.log(res.data)
+   } catch (error) {
+    console.error(error)
+   }
+  }
 
   const imageChanger = async (e: ChangeEvent) => { 
     e.preventDefault();
@@ -90,7 +104,7 @@ export default function Profil() {
             name="banner"
             hidden
           />
-        <div className="w-full h-40  flex  justify-between px-10 mb-16">
+        <div className="w-full h-40  flex items-center  justify-between px-10 mb-16">
           <div className="flex items-center">
             <div className="h-48 w-48 mr-4 " onClick={() => document.getElementById("avatar")?.click()}>
             <input
@@ -115,11 +129,11 @@ export default function Profil() {
             </p>
           </div>
           </div>
-          {profilData.isFriend ? null : <button>dzf</button>}
+          {profilData.relation === 'friend' ? null : profilData.relation === 'sent' ? <p className="uppercase font-robotoR">Invitation envoyé</p>: profilData.relation === 'receive' ? <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">Accepter l'invitation</button>: <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">demande de relation</button>}
         </div>
         <div className="flex flex-col items-center">
           {context.auth.id === +id ? <PostForm updatePost={getUser} /> : null}
-          { profilData.isFriend ? profilData.Posts.map((post, index) => (
+          { profilData.relation === 'friend' ? profilData.Posts.map((post, index) => (
             <Post key={index} post={post} />
           )) : null}
         </div>

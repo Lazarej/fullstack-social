@@ -2,15 +2,15 @@ import { Op } from "sequelize";
 import { Post, User } from "../db/sequelize.js";
 import jwt from "jsonwebtoken";
 
-export const checkIfFriend = async (req, res) => {
+export const checkRelationStatus = async (req, res) => {
   const token = req.cookies.accessToken;
   const id = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
   const targetId = req.body.id;
- console.log(req.body.id)
+  console.log(req.body.id);
   try {
     const user = await User.findByPk(id);
     const target = await User.findByPk(targetId);
-     
+
     if (!user || !target) {
       const message =
         "Erreur lors de la recherche de l'utilisateur ! Cet utilisateur n'existe pas";
@@ -19,10 +19,36 @@ export const checkIfFriend = async (req, res) => {
 
     const areFriends = await user.hasFriends(target);
     if (areFriends) {
-      res.json({ message: "Les utilisateurs sont amis", isfriend: true });
-    } else {
-      res.json({ message: "Les utilisateurs sont pas amis", isfriend: false });
+      res.json({ message: "Les utilisateurs sont amis", relation: "friend" });
     }
+    const sentNotifications = await user.getSentNotifications();
+    const receivedNotifications = await user.getReceivedNotifications();
+    const sentInvitation = sentNotifications.some(
+      (notification) =>
+        notification.recipientId === target.id &&
+        notification.isFriendRequest === true
+    );
+    const receivedInvitation = receivedNotifications.some(
+      (notification) =>
+        notification.senderId === target.id &&
+        notification.isFriendRequest === true
+    );
+    if (sentInvitation) {
+     return res.json({
+        message: "L'utilisateura envoyé une invitation de l'utilisateur",
+        relation: "sent",
+      });
+    }
+    if (receivedInvitation) {
+     return res.json({
+        message: "L'utilisateura recu une invitation de l'utilisateur",
+        relation: "receive",
+      });
+    }
+    return res.json({
+      message: "Les utilisateurs sont pas amis",
+      relation: "notfriend",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({

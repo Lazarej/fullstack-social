@@ -3,7 +3,9 @@ import UserAvatar from "@/components/userAvatar/userAvatar";
 import { AuthContext } from "@/context/auth";
 import Link from "next/link";
 import { useContext } from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import FriendWrapper from "@/components/notificationWrapper/friendWrapper";
 
 export default function Navbar() {
 
@@ -17,10 +19,14 @@ export default function Navbar() {
                 </Link>        
             </div>
             <div className="w-full flex  items-center justify-between">
-                <Searchbar/>
-                <div className="mr-10 h-11 w-11" onClick={(e) => context.Logout() }>
+                <Searchbar />
+                <div className="flex items-end h-full pb-2">
+                    <FriendWrapper/>
+                <div className="mr-10 h-11 w-11" onClick={(e) => context.Logout()}>
+                   
                     <UserAvatar change={false} img={context.auth.avatar}/>
 
+                </div>
                 </div>
 
             </div>

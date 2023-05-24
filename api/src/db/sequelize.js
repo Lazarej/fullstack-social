@@ -32,7 +32,8 @@ Comment.belongsTo(Post)
 Comment.belongsTo(User)
 Notification.belongsTo(User, { as: 'sender', foreignKey: 'senderId' });
 Notification.belongsTo(User, { as: 'recipient', foreignKey: 'recipientId' });
-User.hasMany(Notification,{as:'receivedNotification', foreignKey:'recipientId'})
+User.hasMany(Notification, { as: 'receivedNotifications', foreignKey: 'recipientId' })
+User.hasMany(Notification, { as: 'sentNotifications', foreignKey: 'senderId' });
 
 
 

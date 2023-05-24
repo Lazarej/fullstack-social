@@ -8,6 +8,8 @@ const DropDownSearch = dynamic(() => import('../dropDownSearch/dropDownSearch'),
   loading: () => <p>Loading...</p>,
   ssr:false
 });
+
+
 export default function Searchbar() {
 
 
@@ -17,7 +19,7 @@ export default function Searchbar() {
   const Search = async (e: ChangeEvent<HTMLInputElement>) => {
     
          try {
-           const res = await axios.get(`http://localhost:8800/api/user?name=${e.target.value}&limit=10`,       {
+           const res = await axios.get(`${process.env.NEXT_PUBLIC_DOMAIN}api/user?name=${e.target.value}&limit=10`,       {
             withCredentials: true,
            })
            if (e.target.value.length === 0) {
