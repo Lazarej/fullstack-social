@@ -55,14 +55,18 @@ return res.json({
 export const createFriendRelation = async (req, res) => {
     const token = req.cookies.accessToken;
   const userId = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
-  const targetId = req.body
+  const senderId = req.body.senderId
   const user = await User.findByPk(userId);
-    const target = await User.findByPk(targetId);
+  const sender = await User.findByPk(senderId);
+  const notification = await Notification.findByPk(req.body.notifId)
   try {
-    user.addFriends(target)
-      target.addFriends(user)
+     console.log('dza',notification)
+   await user.addFriends(sender)
+    await sender.addFriends(user)
+   
+    await notification.destroy()
 return res.json({
-      message: "Voici les demandes d'amis", friendsNotification
+      message: "Vous etes a present ami et vous avez supprimé la notification", notification
     });
   } catch (error) {
     console.error(error);

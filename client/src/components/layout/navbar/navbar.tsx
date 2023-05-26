@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import FriendWrapper from "@/components/notificationWrapper/friendWrapper";
+import ActuWrapper from "@/components/notificationWrapper/actuWrapper";
 
 export default function Navbar() {
 
@@ -21,7 +22,8 @@ export default function Navbar() {
             <div className="w-full flex  items-center justify-between">
                 <Searchbar />
                 <div className="flex items-end h-full pb-2">
-                    <FriendWrapper/>
+                    <FriendWrapper />
+                    <ActuWrapper/>
                 <div className="mr-10 h-11 w-11" onClick={(e) => context.Logout()}>
                    
                     <UserAvatar change={false} img={context.auth.avatar}/>

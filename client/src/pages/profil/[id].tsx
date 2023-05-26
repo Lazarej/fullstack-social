@@ -33,8 +33,9 @@ export default function Profil() {
       {
         withCredentials: true,
       }
-    );
-     const resFriend = await axios.post(
+      );
+      console.log(resUser.data)
+      const resFriend = await axios.post(
        `${process.env.NEXT_PUBLIC_DOMAIN}api/user/isFriends`,
       resUser.data.user,
       {
@@ -129,11 +130,11 @@ export default function Profil() {
             </p>
           </div>
           </div>
-          {profilData.relation === 'friend' ? null : profilData.relation === 'sent' ? <p className="uppercase font-robotoR">Invitation envoyé</p>: profilData.relation === 'receive' ? <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">Accepter l'invitation</button>: <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">demande de relation</button>}
+          {profilData.relation === 'friend' || context.auth.id === +id  ? null : profilData.relation === 'sent' ? <p className="uppercase font-robotoR">Invitation envoyé</p>: profilData.relation === 'receive' ? <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">Accepter l'invitation</button>: <button onClick={() => sendfriendinvitation()} className=" p-2 w-40 bg-primary text-white rounded-lg uppercase font-robotoR text-sm h-14 ">demande de relation</button>}
         </div>
         <div className="flex flex-col items-center">
           {context.auth.id === +id ? <PostForm updatePost={getUser} /> : null}
-          { profilData.relation === 'friend' ? profilData.Posts.map((post, index) => (
+          { profilData.relation === 'friend' || context.auth.id === +id  ? profilData.Posts.map((post, index) => (
             <Post key={index} post={post} />
           )) : null}
         </div>

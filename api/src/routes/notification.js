@@ -1,4 +1,4 @@
-import { createFriendsNotification, getFriendsNotification } from "../controllers/notification.js"
+import { createFriendRelation, createFriendsNotification, getFriendsNotification } from "../controllers/notification.js"
 import { Auth } from "../middleware/auth.js"
 
 
