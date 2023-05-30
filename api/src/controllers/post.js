@@ -97,8 +97,9 @@ export const getFeedPosts = async (req, res) => {
     const userPosts = await data[0].dataValues.Posts.map(
       (post) => post.dataValues
     );
-    const friendsPosts = await data[0].dataValues.friends.map(
-      (friend) => friend.dataValues.Posts.map((post) => post.dataValues)[0]
+    
+    const friendsPosts = await data[0].dataValues.friends[0].Posts.map(
+      (post) => post.dataValues
     );
     const posts = [...userPosts, ...friendsPosts];
     posts.sort((a, b) => new Date(b.created) - new Date(a.created));

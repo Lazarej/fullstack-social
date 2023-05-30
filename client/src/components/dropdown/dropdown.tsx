@@ -5,7 +5,6 @@ import { isNullishCoalesce } from "typescript";
 
 export default function DropDown(props: any) {
   useEffect(() => {
-    console.log("dzdzadaz", props.data);
   });
 
   const addFriend = async (notifId: number, senderId: number) => {

@@ -19,7 +19,7 @@ export const checkRelationStatus = async (req, res) => {
 
     const areFriends = await user.hasFriends(target);
     if (areFriends) {
-      res.json({ message: "Les utilisateurs sont amis", relation: "friend" });
+      return res.json({ message: "Les utilisateurs sont amis", relation: "friend" });
     }
     const sentNotifications = await user.getSentNotifications();
     const receivedNotifications = await user.getReceivedNotifications();
@@ -58,20 +58,11 @@ export const checkRelationStatus = async (req, res) => {
   }
 };
 
-export const getUserById = async (req, res) => {
+export const  getUserById = async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id, {
       attributes: { exclude: ["password"] },
-      include: [
-        {
-          model: Post,
-        },
-        {
-          model: User,
-          as: "friends",
-          attributes: [],
-        },
-      ],
+      include: [Post],
     });
 
     if (!user) {
@@ -80,10 +71,12 @@ export const getUserById = async (req, res) => {
       return res.status(404).json({ message });
     }
 
-    const friendsCount = user.friends ? user.friends.length : 0;
+    const friendsCount = await user.countFriends();
 
     const message = "L'utilisateur a été trouvé";
+      console.log('fin de la requete')
     return res.json({ message, user, friendsCount });
+  
   } catch (error) {
     console.error(error);
     return res.status(500).json({

@@ -9,7 +9,7 @@ import path from 'path'
 import { CheckRelationStatus, GetAllUser, GetUserById, PutUser } from './src/routes/user.js';
 import { GetRefreshToken } from './src/routes/token.js';
 import { GetComments, PostComment } from './src/routes/comment.js';
-import { CreateFriendRelation, CreateFriendsNotification, GetFriendsNotification } from './src/routes/notification.js';
+import { CreateFriendRelation, CreateFriendsNotification, GetNotification, UpdateNotification } from './src/routes/notification.js';
 
 
 dotenv.config()
@@ -44,8 +44,9 @@ GetComments(app)
 PostComment(app)
 CreateFriendsNotification(app)
 CheckRelationStatus(app)
-GetFriendsNotification(app)
+GetNotification(app)
 CreateFriendRelation(app)
+UpdateNotification(app)
 
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

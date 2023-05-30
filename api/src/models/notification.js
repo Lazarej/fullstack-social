@@ -13,6 +13,9 @@ export const NotificationModel = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    action: {
+       type: DataTypes.STRING
+     }
   }, {
     timestamps: true, 
   });
