@@ -34,14 +34,15 @@ export default function Profil() {
         withCredentials: true,
       }
       );
-      console.log(resUser.data)
+     
       const resFriend = await axios.post(
        `${process.env.NEXT_PUBLIC_DOMAIN}api/user/isFriends`,
       resUser.data.user,
       {
         withCredentials: true,
       }
-    );
+      );
+       console.log(resFriend.data)
     setProfilData((prev) => (prev = { ...resUser.data.user, friendsCount: resUser.data.friendsCount , relation:resFriend.data.relation}));
     } catch (error) {
       console.error(error)

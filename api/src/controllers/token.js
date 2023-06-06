@@ -44,7 +44,7 @@ export const getRefreshToken = async (req, res) => {
             httpOnly: true,
           })
             .status(200)
-            .json({});
+            .json({id:userId});
       }
     );
   } catch (error) {

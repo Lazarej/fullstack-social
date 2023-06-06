@@ -10,6 +10,8 @@ import { CheckRelationStatus, GetAllUser, GetUserById, PutUser } from './src/rou
 import { GetRefreshToken } from './src/routes/token.js';
 import { GetComments, PostComment } from './src/routes/comment.js';
 import { CreateFriendRelation, CreateFriendsNotification, GetNotification, UpdateNotification } from './src/routes/notification.js';
+import { getChats } from './src/controllers/chat.js';
+import { GetChats } from './src/routes/chat.js';
 
 
 dotenv.config()
@@ -47,6 +49,7 @@ CheckRelationStatus(app)
 GetNotification(app)
 CreateFriendRelation(app)
 UpdateNotification(app)
+GetChats(app)
 
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

@@ -1,18 +1,20 @@
-import { faUser } from "@fortawesome/free-solid-svg-icons"
+
+import { faMessage } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { useEffect, useState } from "react"
 import DropDown from "../dropdown/dropdown"
 import axios from "axios"
+import Link from "next/link"
 
 
 
-export default function FriendWrapper(props:any) {
+export default function ChatWrapper(props:any) {
     
     const [state, setState] = useState(false)
     const [notif, setNotif] = useState([])
     
       useEffect(() => {
-          getFriendsNotif()
+        //   getFriendsNotif()
            
     },[])
 
@@ -30,7 +32,9 @@ export default function FriendWrapper(props:any) {
 
     return (
         <div className="relative h-full flex flex-col justify-end mr-6">
-            <FontAwesomeIcon icon={faUser} onClick={() => setState(prev => prev = !prev)} className=" mb-1 cursor-pointer" size="lg" />
+            <Link href={'/chat'}>
+                 <FontAwesomeIcon icon={faMessage} onClick={() => setState(prev => prev = !prev)} className=" mb-1 cursor-pointer" size="lg" />
+           </Link>
             {notif.length > 0 && <DropDown open={state} data={notif} />}
         </div>
     )

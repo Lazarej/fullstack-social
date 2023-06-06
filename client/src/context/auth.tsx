@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     RefresHToken();
+    console.log(auth)
     const interval = setInterval(() => RefresHToken(), 14 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
@@ -27,9 +28,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           withCredentials: true,
         }
       );
-      const user = JSON.parse(localStorage.getItem("Test2") as string);
-      setAuth((prev) => (prev = { ...user }));
-    } catch (error: any) {
+      console.log('res', response.data.id)
+      const user = JSON.parse(localStorage.getItem(`user_${response.data.id}`) as string);
+        setAuth((prev) => (prev = { ...user }));
+      } catch (error: any) {
       if (error.response.status === 401) {
         Logout();
       }
@@ -37,8 +39,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const saveUser = (data: {id: number}) => {
-    localStorage.setItem("Test2", JSON.stringify(data));
-    setAuth((prev) => (prev = { ...data}));
+    localStorage.setItem(`user_${data.id}`, JSON.stringify(data));
+    setAuth((prev) => (prev = { id:data.id}));
   }
 
   const Login = async (form: { email: string; password: string }, e: Event) => {
@@ -91,8 +93,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         `${process.env.NEXT_PUBLIC_DOMAIN}api/auth/logout`,
         { withCredentials: true }
       );
-      console.log(response);
-      localStorage.clear();
+
+      // localStorage.clear();
       router.push("/login");
     } catch (error) {
       console.error(error);

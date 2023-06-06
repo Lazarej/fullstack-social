@@ -3,6 +3,8 @@ import { UserModel } from "../models/user.js";
 import { PostModel } from "../models/post.js";
 import { CommentModel } from "../models/comment.js";
 import { NotificationModel } from "../models/notification.js";
+import { ChatModel } from "../models/chat.js";
+import { MessageModel } from "../models/message.js";
 
 export const sequelize = new Sequelize('social-media', 'root', '', {
   host: 'localhost',
@@ -20,20 +22,32 @@ export const User = UserModel(sequelize, DataTypes)
 export const Post = PostModel(sequelize, DataTypes)
 export const Comment = CommentModel(sequelize, DataTypes)
 export const Notification = NotificationModel(sequelize, DataTypes)
+export const Chat = ChatModel(sequelize, DataTypes)
+export const Message = MessageModel(sequelize, DataTypes)
 User.hasMany(Post)
 User.hasMany(Comment)
 User.belongsToMany(User, {
   through: 'FriendModel',
   as: 'friends',
 })
+User.hasMany(Chat)
+User.hasMany(Message, { as: 'receivedMessage', foreignKey: 'recipientId' })
+User.hasMany(Message, { as: 'sentMessage', foreignKey: 'senderId' });
+User.hasMany(Notification, { as: 'receivedNotifications', foreignKey: 'recipientId' })
+User.hasMany(Notification, { as: 'sentNotifications', foreignKey: 'senderId' });
 Post.belongsTo(User)
 Post.hasMany(Comment, {as: 'comments'})
 Comment.belongsTo(Post)
 Comment.belongsTo(User)
 Notification.belongsTo(User, { as: 'sender', foreignKey: 'senderId' });
 Notification.belongsTo(User, { as: 'recipient', foreignKey: 'recipientId' });
-User.hasMany(Notification, { as: 'receivedNotifications', foreignKey: 'recipientId' })
-User.hasMany(Notification, { as: 'sentNotifications', foreignKey: 'senderId' });
+Chat.belongsToMany(User, {
+  through: 'ChatUserModel',
+  as: 'chatUsers',
+} )
+Chat.hasMany(Message)
+Message.hasOne(User)
+
 
 
 

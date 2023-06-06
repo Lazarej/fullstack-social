@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import FriendWrapper from "@/components/notificationWrapper/friendWrapper";
 import ActuWrapper from "@/components/notificationWrapper/actuWrapper";
+import ChatWrapper from "@/components/notificationWrapper/chatWrapper";
 
 export default function Navbar() {
 
@@ -22,6 +23,7 @@ export default function Navbar() {
             <div className="w-full flex  items-center justify-between">
                 <Searchbar />
                 <div className="flex items-end h-full pb-2">
+                    <ChatWrapper/>
                     <FriendWrapper />
                     <ActuWrapper/>
                 <div className="mr-10 h-11 w-11" onClick={(e) => context.Logout()}>
