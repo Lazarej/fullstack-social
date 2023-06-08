@@ -12,6 +12,7 @@ import { GetComments, PostComment } from './src/routes/comment.js';
 import { CreateFriendRelation, CreateFriendsNotification, GetNotification, UpdateNotification } from './src/routes/notification.js';
 import { getChats } from './src/controllers/chat.js';
 import { GetChats } from './src/routes/chat.js';
+import { CreateMessage, GetMessagesByChat } from './src/routes/message.js';
 
 
 dotenv.config()
@@ -50,6 +51,8 @@ GetNotification(app)
 CreateFriendRelation(app)
 UpdateNotification(app)
 GetChats(app)
+GetMessagesByChat(app)
+CreateMessage(app)
 
 
 app.listen(port, () => console.log(`http://localhost:${port}`));

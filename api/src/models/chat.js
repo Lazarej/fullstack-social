@@ -6,6 +6,10 @@ export const ChatModel = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
+    members: {
+      type: DataTypes.JSON,
+      allowNull: false
+    }
   }, {
     timestamps: true, 
   });

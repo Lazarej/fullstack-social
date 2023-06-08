@@ -31,8 +31,7 @@ User.belongsToMany(User, {
   as: 'friends',
 })
 User.hasMany(Chat)
-User.hasMany(Message, { as: 'receivedMessage', foreignKey: 'recipientId' })
-User.hasMany(Message, { as: 'sentMessage', foreignKey: 'senderId' });
+User.hasMany(Message)
 User.hasMany(Notification, { as: 'receivedNotifications', foreignKey: 'recipientId' })
 User.hasMany(Notification, { as: 'sentNotifications', foreignKey: 'senderId' });
 Post.belongsTo(User)
@@ -41,12 +40,9 @@ Comment.belongsTo(Post)
 Comment.belongsTo(User)
 Notification.belongsTo(User, { as: 'sender', foreignKey: 'senderId' });
 Notification.belongsTo(User, { as: 'recipient', foreignKey: 'recipientId' });
-Chat.belongsToMany(User, {
-  through: 'ChatUserModel',
-  as: 'chatUsers',
-} )
 Chat.hasMany(Message)
 Message.hasOne(User)
+Message.hasOne(Chat)
 
 
 
@@ -55,11 +51,9 @@ Message.hasOne(User)
     try {
     await sequelize.sync();
       console.log('Base de données "social-media" synchronisée');
-      // Comment.create({
-      //   text: 'Les commentaires sont delicieux',
-      //   UserId: 1,
-      //   PostId:1
-      // })
+      Chat.create({
+        members:[1,3]
+      })
     } catch (error) {
         console.error(error)
          console.log('Base de données non synchronisée');
