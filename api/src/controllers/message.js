@@ -1,4 +1,4 @@
-import { Message } from "../db/sequelize.js";
+import { Message, User } from "../db/sequelize.js";
 import jwt from "jsonwebtoken";
 
 export const getMessagesByChat = async (req, res) => {
@@ -7,7 +7,13 @@ export const getMessagesByChat = async (req, res) => {
        const messages = await Message.findAll({
            where: {
             ChatId : req.params .id
-        }
+         },
+          include: [
+    {
+      model: User,
+      attributes: ["avatar", "name"],
+    },
+  ],
        })
        if (!messages) {
         return res.status(401).json({
