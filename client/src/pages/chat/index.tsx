@@ -6,11 +6,13 @@ import MessageForm from "@/components/messageForm/messageForm";
 
 export default function Chat() {
   const [chats, setChats] = useState([]);
-    const [messages, setMessages] = useState([]);
-    const user = useContext(AuthContext)
+  const [messages, setMessages] = useState([]);
+  const user = useContext(AuthContext);
+  const [currentIndex , setCurrentIndex ] = useState(0)
 
   useEffect(() => {
     getChats();
+    getMessages(1);
   }, []);
 
   const getChats = async () => {
@@ -38,6 +40,7 @@ export default function Chat() {
       );
       console.log(res.data);
       setMessages((prev) => (prev = res.data.messages));
+      setCurrentIndex(prev => prev = i)
     } catch (error) {
       console.error(error);
     }
@@ -79,12 +82,19 @@ export default function Chat() {
       <div className="w-full flex flex-col justify-between">
         <div className="w-full  px-10">
           {messages.map((message, index) => (
-          <div key={index} style={message.userId === user.auth.id ? {   direction: "ltr"}   :  { direction: "rtl"  } }>
-                <p>{message.text}</p>
-          </div>
-        ))}
+            <div
+              key={index}
+              style={
+                message.userId === user.auth.id
+                  ? { direction: "ltr" }
+                  : { direction: "rtl" }
+              }
+            >
+              <p>{message.text}</p>
+            </div>
+          ))}
         </div>
-        <MessageForm/>
+        <MessageForm ChatId={currentIndex} />
       </div>
     </div>
   );

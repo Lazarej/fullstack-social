@@ -33,7 +33,8 @@ export const getMessagesByChat = async (req, res) => {
 
 export const createMessage = async (req, res) => {
   const token = req.cookies.accessToken;
-  const userId = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId  ;
+  const userId = jwt.verify(token, process.env.ACCESS_TOKEN_KEY).userId;
+  console.log('ouai' , req.body)
    try {
        const messages = await Message.create({
            ...req.body,

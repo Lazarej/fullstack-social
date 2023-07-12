@@ -51,9 +51,6 @@ Message.hasOne(Chat)
     try {
     await sequelize.sync();
       console.log('Base de données "social-media" synchronisée');
-      Chat.create({
-        members:[1,3]
-      })
     } catch (error) {
         console.error(error)
          console.log('Base de données non synchronisée');

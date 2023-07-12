@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { Chat, User, sequelize } from "../db/sequelize.js";
+import { Chat, Message, User, sequelize } from "../db/sequelize.js";
 import { Op } from "sequelize";
 
 export const getChats = async (req, res) => {
@@ -46,3 +46,4 @@ export const getChats = async (req, res) => {
     });
   }
 };
+

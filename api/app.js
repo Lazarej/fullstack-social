@@ -13,6 +13,7 @@ import { CreateFriendRelation, CreateFriendsNotification, GetNotification, Updat
 import { getChats } from './src/controllers/chat.js';
 import { GetChats } from './src/routes/chat.js';
 import { CreateMessage, GetMessagesByChat } from './src/routes/message.js';
+import { initSocket } from './src/db/socket.js';
 
 
 dotenv.config()
@@ -55,10 +56,10 @@ GetMessagesByChat(app)
 CreateMessage(app)
 
 
-app.listen(port, () => console.log(`http://localhost:${port}`));
+export const server = app.listen(port, () => console.log(`http://localhost:${port}`));
 
 initDb()
-
+initSocket()
 app.use(({res}) => {
     const message = 'Impossible de trouver la ressource  demandée! Vous pouvez  essayer une autre URL'
     res.status(404).json({message})
